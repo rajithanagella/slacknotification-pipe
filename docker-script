@@ -1,0 +1,19 @@
+node{
+def buildnumber = BUILD_NUMBER
+def mavenhome = tool name: "maven3.8.7"
+stage('checkout'){
+url}
+stage('build'){
+sh"${mavenhome}/bin/mvn clean package"
+}
+stage('image'){
+sh"docker create -t rajithahub/springboot:${buildnumber}"
+}
+stage('login'){
+sh"docker login -u rajithahub -p rajitha005"
+sh"docker push rajithahub/springboot:${buildnumber}"
+}
+stage('create container'){
+sh"ssh -o StrictHostKeyChecking=no ubuntu@ip docker rm -f mavenapp || true"
+sh"ssh -o StrictHostKeyChecking=no ubuntu@ip docker run -d --name mavenapp -p 8080:8080 rajithahub/springboot:${buildnumber}"
+}}
