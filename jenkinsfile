@@ -1,0 +1,12 @@
+node{
+def mavenhome = tool name: "maven3.8.7"
+stage('checkout'){
+git url}
+stage('build'){
+sh "${mavenhome}/bin/mvn clean package"}
+stage('sonarReport'){
+sh "${mavenhome}/bin/mvn sonar:sonar"}
+stage('artifactoryRepo'){
+sh "${mavenhome}/bin/mvn deploy"}
+stage('deploy'){
+sh"scp -o StrictHostKeyChecking=no target/maven-web-application.war" ec2-user@ip :/opt/tomcat/webapps/ "}}
